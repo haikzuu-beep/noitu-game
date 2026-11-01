@@ -3,36 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nối Từ Multiplayer - Pastel Edition</title>
+    <title>Nối Từ Multiplayer - Full Features</title>
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
     <style>
         :root {
-            --bg-color: #dbeafe; /* Xanh pastel mặc định */
-            --card-bg: rgba(255, 255, 255, 0.85);
+            --bg-color: #dbeafe;
+            --bg-image: radial-gradient(#ffffff 15%, transparent 16%);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: #333;
+            --text-color: #333;
             --primary: #818cf8;
             --primary-hover: #6366f1;
-            --text-color: #4b5563;
-            --accent: #f472b6;
         }
 
         body.theme-pink {
-            --bg-color: #fce7f3; /* Hồng pastel */
+            --bg-color: #fce7f3;
             --primary: #f472b6;
             --primary-hover: #ec4899;
         }
 
         body.theme-dark {
-            --bg-color: #1f2937;
-            --card-bg: rgba(31, 41, 55, 0.9);
+            --bg-color: #111827;
+            --bg-image: none; /* Nền đen trơn không chấm bi */
+            --card-bg: rgba(31, 41, 55, 0.95);
+            --border-color: #f3f4f6; /* Viền khung màu trắng */
+            --text-color: #f3f4f6;   /* Viền chữ/màu chữ trắng */
             --primary: #4f46e5;
             --primary-hover: #4338ca;
-            --text-color: #f3f4f6;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
-            background-image: radial-gradient(#ffffff 15%, transparent 16%);
+            background-image: var(--bg-image);
             background-size: 20px 20px;
             color: var(--text-color);
             margin: 0;
@@ -43,7 +46,7 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .main-container {
@@ -51,322 +54,33 @@
             grid-template-columns: 1fr 1.5fr;
             gap: 20px;
             width: 100%;
-            max-width: 900px;
-            height: 550px;
+            max-width: 950px;
+            height: 580px;
             position: relative;
         }
 
         .box {
             background: var(--card-bg);
-            border: 3px solid #333;
+            border: 3px solid var(--border-color);
             border-radius: 20px;
             padding: 20px;
-            box-shadow: 4px 4px 0px #333;
+            box-shadow: 4px 4px 0px var(--border-color);
             display: flex;
             flex-direction: column;
             justify-content: space-around;
         }
 
         /* Cột trái */
-        .left-column {
-            gap: 15px;
-        }
+        .left-column { gap: 15px; }
         .menu-btn {
-            background: #fff;
-            border: 2px solid #333;
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 2px solid var(--border-color);
             border-radius: 15px;
             padding: 15px;
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 2px 2px 0px #333;
+            box-shadow: 2px 2px 0px var(--border-color);
             transition: all 0.1s ease;
-            text-align: center;
-        }
-        .menu-btn:hover {
-            background: var(--primary);
-            color: white;
-            transform: translate(-2px, -2px);
-            box-shadow: 4px 4px 0px #333;
-        }
-
-        /* Cột phải */
-        .right-column {
-            gap: 15px;
-        }
-        .profile-row {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-        .name-box {
-            border: 2px solid #333;
-            border-radius: 12px;
-            padding: 10px;
-            flex: 1;
-            font-weight: bold;
-            background: #fff;
-        }
-        .avatar-box {
-            width: 70px;
-            height: 70px;
-            border: 2px solid #333;
-            border-radius: 50%;
-            background: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            text-align: center;
-            font-weight: bold;
-        }
-        .info-card-row {
-            display: flex;
-            gap: 10px;
-        }
-        .title-box {
-            border: 2px solid #333;
-            border-radius: 12px;
-            padding: 10px;
-            flex: 1;
-            background: #fff;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 5px;
-        }
-        .change-title-btn {
-            border: 2px solid #333;
-            border-radius: 8px;
-            padding: 5px;
-            background: #fef08a;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .ranking-box {
-            border: 2px solid #333;
-            border-radius: 12px;
-            padding: 10px;
-            flex: 1.5;
-            background: #fff;
-            font-size: 13px;
-            overflow-y: auto;
-        }
-        .auth-box {
-            border: 2px solid #333;
-            border-radius: 12px;
-            padding: 12px;
-            background: #fff;
-            text-align: center;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 2px 2px 0px #333;
-        }
-
-        /* Nút chuyển nền & Nút Chat góc dưới */
-        .floating-controls {
-            position: absolute;
-            top: -50px;
-            right: 0;
-            display: flex;
-            gap: 10px;
-        }
-        .theme-btn {
-            border: 2px solid #333;
-            border-radius: 10px;
-            padding: 5px 10px;
-            background: #fff;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 12px;
-            box-shadow: 2px 2px 0px #333;
-        }
-
-        .chat-toggle-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            border: 3px solid #333;
-            border-radius: 15px;
-            padding: 12px 20px;
-            background: #f472b6;
-            color: white;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 3px 3px 0px #333;
-            z-index: 100;
-        }
-
-        /* Khung Chat chiếm 1/4 màn hình góc dưới phải */
-        .chat-panel {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 25vw;
-            height: 25vh;
-            min-width: 280px;
-            min-height: 200px;
-            background: #fff;
-            border: 3px solid #333;
-            border-radius: 15px;
-            box-shadow: 5px 5px 0px #333;
-            display: flex;
-            flex-direction: column;
-            z-index: 101;
-            transition: all 0.2s ease-in-out;
-        }
-        .chat-panel.hidden {
-            display: none;
-        }
-        .chat-header {
-            background: #f472b6;
-            color: white;
-            padding: 8px 12px;
-            font-weight: bold;
-            border-bottom: 2px solid #333;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 12px 12px 0 0;
-        }
-        .close-chat {
-            cursor: pointer;
-            background: none;
-            border: none;
-            color: white;
-            font-weight: bold;
-            font-size: 16px;
-        }
-        .chat-messages {
-            flex: 1;
-            padding: 10px;
-            overflow-y: auto;
-            font-size: 13px;
-            background: #fdf2f8;
-        }
-        .chat-input-area {
-            display: flex;
-            border-top: 2px solid #333;
-        }
-        .chat-input-area input {
-            flex: 1;
-            border: none;
-            padding: 8px;
-            outline: none;
-            border-radius: 0 0 0 12px;
-        }
-        .chat-input-area button {
-            background: #a78bfa;
-            border: none;
-            border-left: 2px solid #333;
-            padding: 0 15px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 0 0 12px 0;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="main-container">
-        <!-- Các nút chuyển đổi nền -->
-        <div class="floating-controls">
-            <button class="theme-btn" onclick="setTheme('blue')">💙 Nền Xanh</button>
-            <button class="theme-btn" onclick="setTheme('pink')">💖 Nền Hồng</button>
-            <button class="theme-btn" onclick="setTheme('dark')">🌙 Nền Tối</button>
-        </div>
-
-        <!-- Cột Trái -->
-        <div class="box left-column">
-            <button class="menu-btn" onclick="alert('Vào phòng SOLO Rank')">SOLO rank</button>
-            <button class="menu-btn" onclick="alert('Vào phòng Vua tiếng Việt')">Vua tiếng Việt</button>
-            <button class="menu-btn" onclick="alert('Mở cửa hàng')">cửa hàng</button>
-        </div>
-
-        <!-- Cột Phải -->
-        <div class="box right-column">
-            <div class="profile-row">
-                <div class="avatar-box">avatar người chơi</div>
-                <div class="name-box">tên người chơi</div>
-            </div>
-            
-            <div class="info-card-row">
-                <div class="title-box">
-                    <span>danh hiệu: ...</span>
-                    <button class="change-title-btn">đổi danh hiệu</button>
-                </div>
-                <div class="ranking-box">
-                    <b>xếp hạng người chơi</b><br>
-                    - top xu: ...<br>
-                    - top danh dự: ...<br>
-                    - top rank: ...<br>
-                    - top quyên góp: ...
-                </div>
-            </div>
-
-            <div class="auth-box" onclick="alert('Mở cửa sổ đăng nhập / tạo tài khoản')">
-                đăng nhập hoặc tạo tài khoản
-            </div>
-        </div>
-    </div>
-
-    <!-- Nút mở Chat -->
-    <button class="chat-toggle-btn" onclick="toggleChat()">chat</button>
-
-    <!-- Khung Chat (Chiếm 1/4 màn hình khi bật) -->
-    <div class="chat-panel hidden" id="chatPanel">
-        <div class="chat-header">
-            <span>Phòng Trò Chuyện</span>
-            <button class="close-chat" onclick="toggleChat()">X</button>
-        </div>
-        <div class="chat-messages" id="chatMessages">
-            <div><i>Hệ thống: Chào mừng bạn đến với Nối Từ!</i></div>
-        </div>
-        <div class="chat-input-area">
-            <input type="text" id="chatInput" placeholder="Nhập tin nhắn..." autocomplete="off">
-            <button onclick="sendChatMessage()">Gửi</button>
-        </div>
-    </div>
-
-    <script>
-        // Đổi màu nền giao diện
-        function setTheme(theme) {
-            document.body.className = '';
-            if (theme === 'pink') {
-                document.body.classList.add('theme-pink');
-            } else if (theme === 'dark') {
-                document.body.classList.add('theme-dark');
-            }
-        }
-
-        // Bật/tắt khung chat
-        function toggleChat() {
-            const panel = document.getElementById('chatPanel');
-            panel.classList.toggle('hidden');
-        }
-
-        // Gửi tin nhắn chat
-        function sendChatMessage() {
-            const input = document.getElementById('chatInput');
-            const text = input.value.trim();
-            if(!text) return;
-
-            const messagesDiv = document.getElementById('chatMessages');
-            const msg = document.createElement('div');
-            msg.innerHTML = `<b>Bạn:</b> ${text}`;
-            messagesDiv.appendChild(msg);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            input.value = '';
-        }
-
-        document.getElementById("chatInput").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                sendChatMessage();
-            }
-        });
-    </script>
-</body>
-</html>
+            text
