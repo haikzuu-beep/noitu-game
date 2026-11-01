@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nối Từ Multiplayer - P2P</title>
-    <!-- Thư viện PeerJS để kết nối trực tiếp giữa các người chơi -->
+    <!-- Thư viện PeerJS -->
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
     <style>
         body {
@@ -37,7 +37,6 @@
             font-size: 16px;
             box-sizing: border-box;
             outline: none;
-            transition: border-color 0.3s;
         }
         input:focus { border-color: #4f46e5; }
         button {
@@ -46,7 +45,6 @@
             border: none;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.3s;
         }
         button:hover { background: #4338ca; }
         .btn-green { background: #059669; }
@@ -62,4 +60,32 @@
             margin: 15px 0;
             border: 2px dashed #e11d48;
         }
-        .error { color: #dc2626; font-size: 14px; margin-top: 10px; font-weight: bold
+        .error { color: #dc2626; font-size: 14px; margin-top: 10px; font-weight: bold; }
+        .success { color: #059669; font-size: 14px; margin-top: 10px; font-weight: bold; }
+        .info-box { background: #f9fafb; padding: 12px; border-radius: 8px; margin-bottom: 15px; text-align: left; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="loginScreen">
+        <h2>🎮 Nối Từ Online</h2>
+        <div class="info-box">
+            👉 <b>Tạo phòng:</b> Nhập tên và mã phòng rồi bấm Tạo.<br>
+            👉 <b>Vào phòng:</b> Nhập tên và mã phòng của bạn bè rồi bấm Vào.
+        </div>
+        <input type="text" id="playerName" placeholder="Nhập tên của bạn..." autocomplete="off">
+        <input type="text" id="roomCodeInput" placeholder="Nhập mã phòng (VD: phongabc)..." autocomplete="off">
+        <button onclick="createRoom()">Tạo phòng mới (Host)</button>
+        <button class="btn-green" onclick="joinRoom()">Vào phòng (Guest)</button>
+        <div class="error" id="loginError"></div>
+    </div>
+
+    <div class="container hidden" id="roomScreen">
+        <h2>Phòng Chờ</h2>
+        <p>Mã phòng của bạn:</p>
+        <h3 id="displayRoomCode" style="color: #059669; background: #ecfdf5; padding: 10px; border-radius: 8px;"></h3>
+        <div id="roomStatus" class="success">Đang chờ người chơi khác kết nối...</div>
+    </div>
+
+    <div class="container hidden" id="gameScreen">
+        <h
