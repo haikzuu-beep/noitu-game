@@ -83,4 +83,522 @@
             cursor: pointer;
             box-shadow: 2px 2px 0px var(--border-color);
             transition: all 0.1s ease;
-            text
+            text-align: center;
+        }
+        .menu-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0px var(--border-color);
+        }
+
+        /* Cột phải */
+        .right-column { gap: 15px; }
+        .profile-row { display: flex; gap: 15px; align-items: center; }
+        
+        .name-box {
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 10px;
+            flex: 1;
+            font-weight: bold;
+            background: var(--card-bg);
+            color: var(--text-color);
+            font-size: 16px;
+            outline: none;
+        }
+
+        /* Avatar chọn file */
+        .avatar-box {
+            width: 75px;
+            height: 75px;
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            color: #333;
+        }
+        .avatar-box input {
+            display: none;
+        }
+
+        .info-card-row { display: flex; gap: 10px; }
+        .title-box {
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 10px;
+            flex: 1;
+            background: var(--card-bg);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+        }
+        .change-title-btn {
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 6px;
+            background: #fef08a;
+            color: #333;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .ranking-box {
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 10px;
+            flex: 1.5;
+            background: var(--card-bg);
+            font-size: 13px;
+            overflow-y: auto;
+        }
+        .auth-box {
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px;
+            background: var(--card-bg);
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 2px 2px 0px var(--border-color);
+        }
+
+        /* Nút chuyển nền */
+        .floating-controls {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            display: flex;
+            gap: 10px;
+        }
+        .theme-btn {
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 5px 10px;
+            background: var(--card-bg);
+            color: var(--text-color);
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 12px;
+            box-shadow: 2px 2px 0px var(--border-color);
+        }
+
+        /* Nút Chat & Khung Chat 1/4 màn hình */
+        .chat-toggle-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            border: 3px solid var(--border-color);
+            border-radius: 15px;
+            padding: 12px 20px;
+            background: #f472b6;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 3px 3px 0px var(--border-color);
+            z-index: 100;
+        }
+
+        .chat-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 28vw;
+            height: 30vh;
+            min-width: 300px;
+            min-height: 220px;
+            background: var(--card-bg);
+            border: 3px solid var(--border-color);
+            border-radius: 15px;
+            box-shadow: 5px 5px 0px var(--border-color);
+            display: flex;
+            flex-direction: column;
+            z-index: 101;
+        }
+        .chat-panel.hidden { display: none; }
+        .chat-header {
+            background: #f472b6;
+            color: white;
+            padding: 8px 12px;
+            font-weight: bold;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 12px 12px 0 0;
+        }
+        .close-chat { cursor: pointer; background: none; border: none; color: white; font-weight: bold; font-size: 16px; }
+        .chat-messages { flex: 1; padding: 10px; overflow-y: auto; font-size: 13px; display: flex; flex-direction: column; gap: 6px; }
+        .chat-msg-item { background: rgba(0,0,0,0.05); padding: 5px 8px; border-radius: 6px; }
+        .chat-input-area { display: flex; border-top: 2px solid var(--border-color); }
+        .chat-input-area input { flex: 1; border: none; padding: 8px; outline: none; background: transparent; color: var(--text-color); }
+        .chat-input-area button { background: var(--primary); border: none; border-left: 2px solid var(--border-color); padding: 0 15px; font-weight: bold; color: white; cursor: pointer; }
+
+        /* Popup chung */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;
+        }
+        .modal-overlay.hidden { display: none; }
+        .modal-box {
+            background: var(--card-bg); border: 3px solid var(--border-color); border-radius: 16px;
+            padding: 25px; width: 350px; box-shadow: 5px 5px 0px var(--border-color); text-align: center;
+        }
+        .modal-box input {
+            width: 100%; padding: 10px; margin: 8px 0; border: 2px solid var(--border-color);
+            border-radius: 8px; box-sizing: border-box; background: #fff; color: #333;
+        }
+        .modal-box button {
+            width: 100%; padding: 10px; margin-top: 10px; background: var(--primary); color: white;
+            border: 2px solid var(--border-color); border-radius: 8px; font-weight: bold; cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <!-- Đổi nền -->
+        <div class="floating-controls">
+            <button class="theme-btn" onclick="setTheme('blue')">💙 Xanh</button>
+            <button class="theme-btn" onclick="setTheme('pink')">💖 Hồng</button>
+            <button class="theme-btn" onclick="setTheme('dark')">🌙 Tối</button>
+        </div>
+
+        <!-- Cột Trái -->
+        <div class="box left-column">
+            <button class="menu-btn" onclick="openGameMode('SOLO rank')">SOLO rank (1v1)</button>
+            <button class="menu-btn" onclick="openGameMode('Vua tiếng Việt')">Vua tiếng Việt (1v1)</button>
+            <button class="menu-btn" onclick="alert('Cửa hàng đang phát triển!')">cửa hàng</button>
+        </div>
+
+        <!-- Cột Phải -->
+        <div class="box right-column">
+            <div class="profile-row">
+                <!-- Avatar đổi ảnh -->
+                <div class="avatar-box" id="avatarDisplay" onclick="document.getElementById('avatarInput').click()">
+                    <span>Đổi ảnh</span>
+                    <input type="file" id="avatarInput" accept="image/*" onchange="changeAvatar(event)">
+                </div>
+                <!-- Tên tối đa 50 ký tự -->
+                <input type="text" class="name-box" id="playerNameInput" maxlength="50" value="Người chơi mới" placeholder="Nhập tên (tối đa 50 ký tự)...">
+            </div>
+            
+            <div class="info-card-row">
+                <div class="title-box">
+                    <span id="currentTitleDisplay">danh hiệu: Chưa có</span>
+                    <button class="change-title-btn" onclick="openTitleModal()">đổi danh hiệu</button>
+                </div>
+                <div class="ranking-box">
+                    <b>xếp hạng người chơi</b><br>
+                    - top xu: Đang cập nhật<br>
+                    - top danh dự: Đang cập nhật<br>
+                    - top rank: Đang cập nhật<br>
+                    - top quyên góp: Đang cập nhật
+                </div>
+            </div>
+
+            <div class="auth-box" onclick="openAuthModal()">
+                đăng nhập hoặc tạo tài khoản
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP ĐĂNG NHẬP / ĐĂNG KÝ -->
+    <div class="modal-overlay hidden" id="authModal">
+        <div class="modal-box">
+            <h3>Tài khoản người chơi</h3>
+            <input type="text" id="authUsername" placeholder="Tên đăng nhập (Bắt buộc)" autocomplete="off">
+            <input type="password" id="authPassword" placeholder="Mật khẩu (Bắt buộc)" autocomplete="off">
+            <button onclick="handleLogin()">Đăng nhập</button>
+            <button onclick="handleRegister()" style="background:#059669;">Đăng ký</button>
+            <button onclick="closeAuthModal()" style="background:#dc2626; margin-top:5px;">Đóng</button>
+            <div id="authError" style="color:red; font-size:13px; margin-top:8px;"></div>
+        </div>
+    </div>
+
+    <!-- POPUP ĐỔI DANH HIỆU -->
+    <div class="modal-overlay hidden" id="titleModal">
+        <div class="modal-box" style="width: 400px;">
+            <h3>Kho Danh Hiệu</h3>
+            <div id="titleList" style="max-height: 150px; overflow-y:auto; text-align:left; margin-bottom: 10px; border:1px solid #ccc; padding:8px; border-radius:8px;">
+                <!-- Danh sách demo -->
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span>🌟 Cao Thủ Nối Từ</span>
+                    <div>
+                        <button onclick="equipTitle('Cao Thủ Nối Từ')" style="padding:2px 6px; font-size:11px; width:auto;">Trang bị</button>
+                    </div>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span>🔥 Thần Tốc</span>
+                    <div>
+                        <button onclick="equipTitle('Thần Tốc')" style="padding:2px 6px; font-size:11px; width:auto;">Trang bị</button>
+                    </div>
+                </div>
+            </div>
+            <button onclick="unequipTitle()" style="background:#f59e0b;">Gỡ trang bị</button>
+            <button onclick="closeTitleModal()" style="background:#dc2626;">Đóng</button>
+        </div>
+    </div>
+
+    <!-- POPUP PHÒNG CHƠI 1V1 (SOLO / VUA TIẾNG VIỆT) -->
+    <div class="modal-overlay hidden" id="gameModeModal">
+        <div class="modal-box" style="width: 420px;">
+            <h3 id="gameModeTitle">Phòng Chơi 1v1</h3>
+            <div id="gameLobbyView">
+                <input type="text" id="roomCodeInput" placeholder="Nhập mã phòng (VD: room123)..." autocomplete="off">
+                <button onclick="createGameRoom()">Tạo phòng mới</button>
+                <button onclick="joinGameRoom()" style="background:#059669;">Vào phòng</button>
+                <button onclick="closeGameModeModal()" style="background:#dc2626;">Đóng</button>
+                <div id="gameError" style="color:red; font-size:13px; margin-top:8px;"></div>
+            </div>
+            
+            <div id="gamePlayView" class="hidden">
+                <h4 id="turnStatus">Đang chờ kết nối...</h4>
+                <div id="currentWordBox" style="font-size: 22px; font-weight: bold; color: #e11d48; background: #ffe4e6; padding: 10px; border-radius: 8px; margin: 10px 0;">---</div>
+                <input type="text" id="wordInput" placeholder="Nhập từ đôi (VD: học tập)..." autocomplete="off">
+                <button onclick="submitWord()">Gửi từ</button>
+                <button onclick="leaveRoom()" style="background:#dc2626; margin-top:5px;">Thoát phòng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nút Chat -->
+    <button class="chat-toggle-btn" onclick="toggleChat()">chat</button>
+
+    <!-- Khung Chat 1/4 màn hình -->
+    <div class="chat-panel hidden" id="chatPanel">
+        <div class="chat-header">
+            <span>Khung Chat Trực Tuyến</span>
+            <button class="close-chat" onclick="toggleChat()">X</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-msg-item"><b>Hệ thống:</b> Chào mừng bạn đến với game!</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Nhập tin nhắn..." autocomplete="off">
+            <button onclick="sendChatMessage()">Gửi</button>
+        </div>
+    </div>
+
+    <script>
+        let currentAvatarUrl = "";
+        let equippedTitle = "Chưa có";
+        let peer = null;
+        let conn = null;
+        let isHost = false;
+        let currentWord = "";
+        let usedWords = [];
+        let myTurn = false;
+
+        const dictionary = [
+            "học tập", "tập thể", "thể thao", "thao trường", "trường học",
+            "yêu thương", "thương nhớ", "nhớ nhung", "nhung lụa", "lụa là",
+            "đất nước", "nước non", "non sông", "sông núi", "núi rừng",
+            "vui vẻ", "vẻ vang", "vang dội", "dội ngược", "ngược xuôi"
+        ];
+
+        // 1. Đổi màu nền
+        function setTheme(theme) {
+            document.body.className = '';
+            if (theme === 'pink') document.body.classList.add('theme-pink');
+            else if (theme === 'dark') document.body.classList.add('theme-dark');
+        }
+
+        // 2. Đổi Avatar từ file ảnh máy tính
+        function changeAvatar(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentAvatarUrl = e.target.result;
+                    const avatarBox = document.getElementById('avatarDisplay');
+                    avatarBox.style.backgroundImage = `url(${currentAvatarUrl})`;
+                    avatarBox.querySelector('span').style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // 3. Quản lý Popup Đăng nhập / Đăng ký
+        function openAuthModal() { document.getElementById('authModal').classList.remove('hidden'); }
+        function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
+        function handleLogin() {
+            const user = document.getElementById('authUsername').value.trim();
+            const pass = document.getElementById('authPassword').value.trim();
+            if(!user || !pass) { document.getElementById('authError').innerText = "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!"; return; }
+            alert(`Đăng nhập thành công tài khoản: ${user}`);
+            closeAuthModal();
+        }
+        function handleRegister() {
+            const user = document.getElementById('authUsername').value.trim();
+            const pass = document.getElementById('authPassword').value.trim();
+            if(!user || !pass) { document.getElementById('authError').innerText = "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!"; return; }
+            alert(`Đăng ký thành công tài khoản: ${user}`);
+            closeAuthModal();
+        }
+
+        // 5. Quản lý Danh hiệu
+        function openTitleModal() { document.getElementById('titleModal').classList.remove('hidden'); }
+        function closeTitleModal() { document.getElementById('titleModal').classList.add('hidden'); }
+        function equipTitle(title) {
+            equippedTitle = title;
+            document.getElementById('currentTitleDisplay').innerText = `danh hiệu: ${title}`;
+            closeTitleModal();
+        }
+        function unequipTitle() {
+            equippedTitle = "Chưa có";
+            document.getElementById('currentTitleDisplay').innerText = `danh hiệu: Chưa có`;
+            closeTitleModal();
+        }
+
+        // 4 & 3. Quản lý Khung Chat & Phòng 1v1 (Real-time PeerJS)
+        function toggleChat() { document.getElementById('chatPanel').classList.toggle('hidden'); }
+        
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if(!text) return;
+
+            const name = document.getElementById('playerNameInput').value || "Ẩn danh";
+            const messagesDiv = document.getElementById('chatMessages');
+            
+            const msgItem = document.createElement('div');
+            msgItem.className = "chat-msg-item";
+            msgItem.innerHTML = `<b>[${equippedTitle}] ${name}:</b> ${text}`;
+            messagesDiv.appendChild(msgItem);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            input.value = '';
+
+            // Nếu đang kết nối phòng game, gửi tin nhắn sang đối thủ
+            if(conn && conn.open) {
+                conn.send({ type: 'CHAT', name: name, title: equippedTitle, text: text });
+            }
+        }
+
+        function openGameMode(modeName) {
+            document.getElementById('gameModeTitle').innerText = modeName;
+            document.getElementById('gameModeModal').classList.remove('hidden');
+            document.getElementById('gameLobbyView').classList.remove('hidden');
+            document.getElementById('gamePlayView').classList.add('hidden');
+        }
+        function closeGameModeModal() {
+            document.getElementById('gameModeModal').classList.add('hidden');
+            if(peer) peer.destroy();
+        }
+
+        function createGameRoom() {
+            const code = document.getElementById('roomCodeInput').value.trim();
+            if(!code) { document.getElementById('gameError').innerText = "Vui lòng nhập mã phòng!"; return; }
+            
+            isHost = true;
+            peer = new Peer(code);
+            peer.on('open', () => {
+                document.getElementById('gameLobbyView').classList.add('hidden');
+                document.getElementById('gamePlayView').classList.remove('hidden');
+                document.getElementById('turnStatus').innerText = "Đã tạo phòng. Đang chờ người chơi khác vào...";
+            });
+            peer.on('error', () => { document.getElementById('gameError').innerText = "Mã phòng đã tồn tại!"; });
+            peer.on('connection', (connection) => {
+                conn = connection;
+                setupGameConnection();
+                document.getElementById('turnStatus').innerText = "Đối thủ đã vào phòng! Đang bắt đầu...";
+                
+                setTimeout(() => {
+                    currentWord = dictionary[Math.floor(Math.random() * dictionary.length)];
+                    usedWords = [currentWord];
+                    myTurn = true;
+                    conn.send({ type: 'START', word: currentWord, used: usedWords, turn: false });
+                    updateGameUI();
+                }, 1000);
+            });
+        }
+
+        function joinGameRoom() {
+            const code = document.getElementById('roomCodeInput').value.trim();
+            if(!code) { document.getElementById('gameError').innerText = "Vui lòng nhập mã phòng!"; return; }
+
+            isHost = false;
+            peer = new Peer();
+            peer.on('open', () => {
+                conn = peer.connect(code);
+                setupGameConnection();
+            });
+            peer.on('error', () => { document.getElementById('gameError').innerText = "Không tìm thấy phòng này!"; });
+        }
+
+        function setupGameConnection() {
+            conn.on('open', () => {
+                if(!isHost) {
+                    document.getElementById('gameLobbyView').classList.add('hidden');
+                    document.getElementById('gamePlayView').classList.remove('hidden');
+                    document.getElementById('turnStatus').innerText = "Đã vào phòng, chờ Host bắt đầu...";
+                }
+            });
+            conn.on('data', (data) => {
+                if(data.type === 'START' || data.type === 'UPDATE') {
+                    currentWord = data.word;
+                    usedWords = data.used;
+                    myTurn = data.turn;
+                    updateGameUI();
+                } else if(data.type === 'CHAT') {
+                    const messagesDiv = document.getElementById('chatMessages');
+                    const msgItem = document.createElement('div');
+                    msgItem.className = "chat-msg-item";
+                    msgItem.innerHTML = `<b>[${data.title}] ${data.name}:</b> ${data.text}`;
+                    messagesDiv.appendChild(msgItem);
+                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                }
+            });
+        }
+
+        function updateGameUI() {
+            document.getElementById('currentWordBox').innerText = currentWord;
+            document.getElementById('turnStatus').innerText = myTurn ? "👉 Đến lượt bạn đi từ!" : "⏳ Đang chờ đối thủ...";
+            document.getElementById('wordInput').value = "";
+        }
+
+        function submitWord() {
+            if(!myTurn) { alert("Chưa đến lượt bạn!"); return; }
+            const word = document.getElementById('wordInput').value.trim().toLowerCase();
+            const parts = currentWord.split(" ");
+            const lastSyllable = parts[parts.length - 1];
+            const userParts = word.split(" ");
+
+            if(userParts.length !== 2) { alert("Phải nhập từ đôi (đúng 2 tiếng)!"); return; }
+            if(userParts[0] !== lastSyllable) { alert(`Từ phải bắt đầu bằng chữ "${lastSyllable}"!`); return; }
+            if(usedWords.includes(word)) { alert("Từ này đã được sử dụng!"); return; }
+
+            usedWords.push(word);
+            currentWord = word;
+            myTurn = false;
+            updateGameUI();
+
+            if(conn) {
+                conn.send({ type: 'UPDATE', word: currentWord, used: usedWords, turn: true });
+            }
+        }
+
+        function leaveRoom() {
+            if(peer) peer.destroy();
+            closeGameModeModal();
+        }
+
+        document.getElementById("chatInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") sendChatMessage();
+        });
+    </script>
+</body>
+</html>
