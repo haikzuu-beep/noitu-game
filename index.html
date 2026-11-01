@@ -1,1 +1,230 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trò Chơi Nối Từ Tiếng Việt</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        h1 {
+            color: #4a3f9e;
+            margin-bottom: 10px;
+        }
+        .status {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #666;
+        }
+        .current-word {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin: 15px 0;
+            padding: 10px;
+            background: #fff0f0;
+            border-radius: 8px;
+            border: 2px dashed #ff6b6b;
+        }
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus {
+            border-color: #667eea;
+        }
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #5a6fd6;
+        }
+        .history {
+            max-height: 150px;
+            overflow-y: auto;
+            text-align: left;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+        .history-item {
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+        .message {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 14px;
+            min-height: 20px;
+        }
+        .error { color: #e74c3c; }
+        .success { color: #2ecc71; }
+    </style>
+</head>
+<body>
 
+    <div class="container">
+        <h1>🎮 Nối Từ Tiếng Việt</h1>
+        <div class="status">Luật chơi: Nhập từ tiếp theo bắt đầu bằng âm tiết cuối của từ hiện tại.</div>
+        
+        <div class="current-word" id="currentWordDisplay">Đang tải...</div>
+
+        <div class="input-group">
+            <input type="text" id="wordInput" placeholder="Nhập từ của bạn (VD: học tập)..." autocomplete="off">
+            <button onclick="submitWord()">Nối từ</button>
+        </div>
+
+        <div class="message" id="message"></div>
+
+        <h3>Lịch sử ván đấu:</h3>
+        <div class="history" id="historyList"></div>
+    </div>
+
+    <script>
+        const dictionary = [
+            "học tập", "tập thể", "thể thao", "thao trường", "trường học",
+            "yêu thương", "thương nhớ", "nhớ nhung", "nhung lụa", "lụa là",
+            "đất nước", "nước non", "non sông", "sông núi", "núi rừng",
+            "vui vẻ", "vẻ vang", "vang dội", "dội ngược", "ngược xuôi"
+        ];
+
+        let currentWord = "";
+        let usedWords = [];
+
+        function initGame() {
+            usedWords = [];
+            const randomIndex = Math.floor(Math.random() * dictionary.length);
+            currentWord = dictionary[randomIndex];
+            usedWords.push(currentWord);
+            
+            updateUI();
+            showMessage("Trò chơi bắt đầu! Bạn đi trước hoặc máy đã ra từ.", "success");
+        }
+
+        function updateUI() {
+            document.getElementById("currentWordDisplay").innerText = currentWord;
+            
+            const historyContainer = document.getElementById("historyList");
+            historyContainer.innerHTML = "";
+            for (let i = usedWords.length - 1; i >= 0; i--) {
+                const div = document.createElement("div");
+                div.className = "history-item";
+                div.innerText = `👉 ${usedWords[i]}`;
+                historyContainer.appendChild(div);
+            }
+        }
+
+        function showMessage(text, type) {
+            const msg = document.getElementById("message");
+            msg.innerText = text;
+            msg.className = "message " + type;
+        }
+
+        function submitWord() {
+            const inputField = document.getElementById("wordInput");
+            const userWord = inputField.value.trim().toLowerCase();
+
+            if (!userWord) {
+                showMessage("Vui lòng nhập một từ!", "error");
+                return;
+            }
+
+            const currentParts = currentWord.split(" ");
+            const lastSyllableOfCurrent = currentParts[currentParts.length - 1];
+            const userParts = userWord.split(" ");
+            
+            if (userParts.length !== 2) {
+                showMessage("Vui lòng nhập từ gồm đúng 2 tiếng (từ đôi)!", "error");
+                return;
+            }
+
+            const firstSyllableOfUser = userParts[0];
+
+            if (firstSyllableOfUser !== lastSyllableOfCurrent) {
+                showMessage(`Từ phải bắt đầu bằng chữ "${lastSyllableOfCurrent}"!`, "error");
+                return;
+            }
+
+            if (usedWords.includes(userWord)) {
+                showMessage("Từ này đã được sử dụng rồi!", "error");
+                return;
+            }
+
+            usedWords.push(userWord);
+            currentWord = userWord;
+            inputField.value = "";
+            
+            showMessage("Chính xác! Đợi máy tìm từ...", "success");
+            updateUI();
+
+            setTimeout(botTurn, 1000);
+        }
+
+        function botTurn() {
+            const currentParts = currentWord.split(" ");
+            const lastSyllable = currentParts[currentParts.length - 1];
+
+            const possibleWords = dictionary.filter(w => {
+                const parts = w.split(" ");
+                return parts[0] === lastSyllable && !usedWords.includes(w);
+            });
+
+            if (possibleWords.length > 0) {
+                const botChoice = possibleWords[Math.floor(Math.random() * possibleWords.length)];
+                usedWords.push(botChoice);
+                currentWord = botChoice;
+                updateUI();
+                showMessage(`Máy đã nối từ: "${botChoice}". Đến lượt bạn!`, "success");
+            } else {
+                showMessage("🎉 Chúc mừng! Máy đã cạn từ và chịu thua bạn!", "success");
+            }
+        }
+
+        document.getElementById("wordInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                submitWord();
+            }
+        });
+
+        initGame();
+    </script>
+</body>
+</html>
